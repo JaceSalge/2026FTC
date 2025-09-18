@@ -1,7 +1,5 @@
-// Importing package.
 package org.firstinspires.ftc.teamcode;
 
-//Importing libraries.
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,11 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-// Naming.
-@TeleOp(name = "TeleOpB0B")
-// Main class.
+@TeleOp(name = "TeleOpB0B (Blocks to Java)")
 public class TeleOpB0B extends LinearOpMode {
-  // Class variable definition.
+
   private Servo grabTilt;
   private DcMotor lb;
   private DcMotor lf;
@@ -22,12 +18,12 @@ public class TeleOpB0B extends LinearOpMode {
   private DcMotor angularRotation;
   private DcMotor upDown;
   private CRServo gripper;
-  
-  // Override.
+
+  /**
+   * This is the code for 9402's 2025-26 robot, B0B.
+   */
   @Override
-  // Run on initialization.
   public void runOpMode() {
-    // Variable declaration.
     int INTAKE_COLLECT;
     int INTAKE_OFF;
     double INTAKE_DEPOSIT;
@@ -40,7 +36,6 @@ public class TeleOpB0B extends LinearOpMode {
     float rightBackPower;
     double max;
 
-    // Initializing moving components.
     grabTilt = hardwareMap.get(Servo.class, "grabTilt");
     lb = hardwareMap.get(DcMotor.class, "lb");
     lf = hardwareMap.get(DcMotor.class, "lf");
@@ -50,7 +45,7 @@ public class TeleOpB0B extends LinearOpMode {
     upDown = hardwareMap.get(DcMotor.class, "upDown");
     gripper = hardwareMap.get(CRServo.class, "gripper");
 
-    // Initializing values.
+    // Initialization blocks go here.
     grabTilt.setPosition(0.05);
     lb.setDirection(DcMotor.Direction.REVERSE);
     lf.setDirection(DcMotor.Direction.REVERSE);
@@ -59,12 +54,11 @@ public class TeleOpB0B extends LinearOpMode {
     INTAKE_COLLECT = -1;
     INTAKE_OFF = 0;
     INTAKE_DEPOSIT = 0.5;
-    // Wait for the driver to hit start.
     waitForStart();
     if (opModeIsActive()) {
-      // Main loop.
+      // This is our loop.
       while (opModeIsActive()) {
-        // Defining more moving component variables.
+        // This is the code for wheels, motors, and servos.
         axial = -gamepad1.left_stick_y;
         lateral = -gamepad1.left_stick_x;
         yaw = gamepad1.right_stick_x;
@@ -72,15 +66,16 @@ public class TeleOpB0B extends LinearOpMode {
         leftFrontPower = (axial - lateral) - yaw;
         leftBackPower = (axial - lateral) + yaw;
         rightBackPower = (axial + lateral) - yaw;
-        // Normalize the values so no wheel power exceeds 100%. This ensures that the robot maintains the desired motion.
-        max = JavaUtil.maxOfList(JavaUtil.createListWith(Math.abs(leftFrontPower), Math.abs(rightFrontPower), Math.abs(leftBackPower), Math.abs(rightBackPower)));
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        max = JavaUtil.maxOfList(JavaUtil.createListWith(Math.abs(leftFrontPower - 0.2), Math.abs(rightFrontPower - 0.2), Math.abs(leftBackPower - 0.2), Math.abs(rightBackPower - 0.2)));
         if (max > 1) {
           leftFrontPower = (float) (leftFrontPower / max);
           rightFrontPower = (float) (rightFrontPower / max);
           leftBackPower = (float) (leftBackPower / max);
           rightBackPower = (float) (rightBackPower / max);
         }
-        // Send calculated power to moving components.
+        // Send calculated power to wheels.
         lf.setPower(leftFrontPower);
         rf.setPower(rightFrontPower);
         lb.setPower(leftBackPower);
@@ -115,7 +110,6 @@ public class TeleOpB0B extends LinearOpMode {
             }
           }
         }
-        // Telemetry.
         telemetry.update();
         telemetry.addData("Motor Positions: 1", lf.getCurrentPosition());
         telemetry.addData("2", lb.getCurrentPosition());
