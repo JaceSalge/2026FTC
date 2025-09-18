@@ -1,4 +1,4 @@
-# CyberSwarm 9402 — FTC 2026
+# Hive Of Steel 9402 — FTC 2026
 
 ## B0B Codebase
 
